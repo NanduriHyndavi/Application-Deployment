@@ -2,8 +2,7 @@ name: Feature-based Branching and Deployment
 
 on:
   push:
-    branches:
-      - 'feature/*'
+    branches: [feature]
 
 jobs:
   build-and-deploy:
