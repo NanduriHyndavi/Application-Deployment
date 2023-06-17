@@ -12,18 +12,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build and Push Docker image
-        uses: docker/build-push-action@v2
+      - name: Push to ECR
+        uses: actions/checkout@v2
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: python-image
-        env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - name: Deploy to Local Machine
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1  # Replace with your AWS region
+      
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      
+      - name: Build and tag Docker image
         run: |
-          docker stop hello || true
-          docker rm hello || true
-          docker run -d -p 8000:8000 --name hello python-image
+          docker build -t public.ecr.aws/v7w6c1i9/myrepo:my-image .
+      
+      - name: Push Docker image to Amazon ECR
+        run: 
+          docker push public.ecr.aws/v7w6c1i9/myrepo:my-image 
+
+      - name: Run Docker container
+        run: |
+          docker run -d -p 8080:80 public.ecr.aws/v7w6c1i9/myrepo:my-image
