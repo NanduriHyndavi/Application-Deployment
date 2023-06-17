@@ -3,7 +3,9 @@ name: Feature-based Branching and Deployment
 on:
   push:
     branches: [feature]
-
+env:
+    DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+    DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -19,7 +21,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: python-image
-
+        
       - name: Deploy to Local Machine
         run: |
           docker stop hello || true
