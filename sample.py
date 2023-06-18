@@ -1,4 +1,7 @@
-from time import sleep
-while True:
-    print("Hello")
-    sleep(1)
+def add_numbers(a, b):
+    return a + b
+
+result = add_numbers(5, 7)
+print("The result is:", result)
+print("That's it!!")
+print("success")
