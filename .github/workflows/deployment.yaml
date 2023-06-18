@@ -19,4 +19,4 @@ jobs:
 
       - name: Run Python application
         run: python sample.py
-        timeout-minutes: 5
+        
