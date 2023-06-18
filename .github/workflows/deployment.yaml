@@ -19,4 +19,8 @@ jobs:
 
       - name: Run Python application
         run: python sample.py
+<<<<<<< HEAD
         timeout-minutes: 5
+=======
+        timeout-minutes: 5
+>>>>>>> 72ca80466aacfe7df8f7fb3cf1364bddb561acee
